@@ -1,43 +1,52 @@
+import API_Requests from "./contact_api";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
+			agenda: '',
+			contact_list: [],
+			demo: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-			loadSomeData: () => {
-				/**
-					fetch().then().then(data => setStore({ "foo": data.bar }))
-				*/
-			},
-			changeColor: (index, color) => {
-				//get the store
+			setAgenda: (agenda) => {
 				const store = getStore();
+				setStore({ ...store, agenda: agenda })
+				// console.log(store.agenda)
+			},
+			getContactsFromAgenda: async () => {
+				const store = getStore();
+				const agendaSlug = store.agenda;
+				const contact_list = await API_Requests.getAllContacts(agendaSlug);
+				return contact_list;
+			},
+			setContactlist: (contact_list) => {
+				const store = getStore();
+				setStore({ ...store, contact_list });
+			},
+			getSingleContact: () => { },
+			createContact: async (new_contact) => {
+				await API_Requests.createContact(new_contact);
+				const actions = getActions();
+				const updatedContactList = await actions.getContactsFromAgenda();
+				actions.setContactlist(updatedContactList);
+			},
+			updateContact: async (updatedContact) => {
+				await API_Requests.updateContact(updatedContact.id, updatedContact)
+				const actions = getActions();
+				const updatedContactList = await actions.getContactsFromAgenda();
+				actions.setContactlist(updatedContactList);
+			},
+			deleteContact: async (contact_id) => {
+				await API_Requests.deleteContact(contact_id)
+				const actions = getActions();
+				const updatedContactList = await actions.getContactsFromAgenda();
+				actions.setContactlist(updatedContactList);
+			},
+			deleteAgenda: async (agendaName) => { 
+				await API_Requests.deleteAgenda(agendaName)
+			},
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
-			}
 		}
 	};
 };

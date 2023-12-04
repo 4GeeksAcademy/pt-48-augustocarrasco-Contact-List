@@ -3,10 +3,10 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ScrollToTop from "./component/scrollToTop";
 
 import { Home } from "./views/home";
-import { Demo } from "./views/demo";
+import { CardList } from "./views/card_list";
 import { Single } from "./views/single";
 import injectContext from "./store/appContext";
-
+import { Create } from "./views/create";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 
@@ -17,14 +17,15 @@ const Layout = () => {
 	const basename = process.env.BASENAME || "";
 
 	return (
-		<div>
+		<div className="bg-dark h-auto rounded d-flex flex-column justify-content-between">
 			<BrowserRouter basename={basename}>
 				<ScrollToTop>
 					<Navbar />
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path="/demo" element={<Demo />} />
-						<Route path="/single/:theid" element={<Single />} />
+						<Route path="/home" element={<CardList />} />
+						<Route path="/new" element={<Create />} />
+						<Route path="/single/:contactid" element={<Single />} />
 						<Route path="*" element={<h1>Not found!</h1>} />
 					</Routes>
 					<Footer />
