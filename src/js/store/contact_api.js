@@ -40,8 +40,7 @@ const API_Requests = {
 
     deleteAgenda: async (agendaName) => {
         const request = await fetch(`${API_URL}/agenda/${agendaName}`, { method: "DELETE" });
-        const data = await request.json();
-        return data
+        return
     }
 }
 export default API_Requests

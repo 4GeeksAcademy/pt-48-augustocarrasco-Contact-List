@@ -27,7 +27,7 @@ export const Single = props => {
 	}, []);
 	return (<>
 		<div className="col-12 d-flex h-auto align-items-center justify-content-center flex-column">
-			{contact.id && <div className="jumbotron col-9 rounded-2 bg-secondary">
+			{contact.id && <div className="jumbotron col-9 rounded-2 bg-secondary p-2">
 				<div className="card mb-3 bg-secondary text-light border" style={{ 'maxWidth': '100%', 'minWidth': '400px' }} key={contact.id}>
 					<div className="row g-0">
 						<div className="col-md-4">
